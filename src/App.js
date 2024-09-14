@@ -1,109 +1,28 @@
-import React, { useState, useEffect } from 'react';
-import EffortLevelBar from './EffortLevelBar';
-import ExpectedPower from './ExpectedPower';
+import React, { useState } from 'react';
+import SpinningSession from './SpinningSession';
+import IntroPage from './IntroPage';
 import './App.css';
 
-const SpinningSession = () => {
-  // Hardcoded FTP values for multiple users
-  const users = [
-    { name: 'Alice', ftp: 250 },
-    { name: 'Bob', ftp: 220 },
-    { name: 'Charlie', ftp: 280 },
-    { name: 'Alice', ftp: 250 },
-    { name: 'Bob', ftp: 220 },
-    { name: 'Charlie', ftp: 280 },
-  ];
+const App = () => {
+  const [isConfigured, setIsConfigured] = useState(false);
+  const [training, setTraining] = useState('');
+  const [users, setUsers] = useState([]);
 
-  const segments = [
-      { effort: 1, rpm: 80, duration: 10 },
-      { effort: 3, rpm: 70, duration: 15 },
-      { effort: 5, rpm: 40, duration: 20 },
-      { effort: 7, rpm: 100, duration: 25 },
-      { effort: 10, rpm: 60, duration: 30 },
-  ];
-
-  const [currentSegment, setCurrentSegment] = useState(0);
-  const [timeLeft, setTimeLeft] = useState(segments[0].duration); // Set initial time to first segment's duration
-  const [isRunning, setIsRunning] = useState(false); // Session running state
-
-  // Effect for countdown logic
-  useEffect(() => {
-    let interval;
-
-    if (isRunning && timeLeft > 0) {
-      interval = setInterval(() => {
-        setTimeLeft((prev) => {
-          if (prev <= 1) {
-            // Move to the next segment or stop if we're at the last segment
-            if (currentSegment < segments.length - 1) {
-              setCurrentSegment((prevSegment) => prevSegment + 1);
-              return segments[currentSegment + 1].duration;
-            } else {
-              setIsRunning(false); // Stop when all segments are done
-              return 0;
-            }
-          }
-          return prev - 1;
-        });
-      }, 1000);
-    } else {
-      clearInterval(interval); // Clear interval when not running
-    }
-
-    return () => clearInterval(interval); // Cleanup interval on component unmount
-  }, [isRunning, timeLeft, currentSegment]);
-
-  const handleStart = () => {
-    setIsRunning(true);
-    setTimeLeft(segments[currentSegment].duration); // Set initial time left for the current segment
+  const handleStart = (selectedTraining, usersList) => {
+    setTraining(selectedTraining);
+    setUsers(usersList);
+    setIsConfigured(true);
   };
 
-  const handleStop = () => {
-    setIsRunning(false);
-  };
-  
   return (
-    <div className="app-container">
-      <div className="sidebar-container">
-        <div className="sidebar">
-          {/* Current Segment Info */}
-          <div className="segment-info">
-            <h2>Current Segment</h2>
-            <p>Effort Level: {segments[currentSegment]?.effort || 'N/A'}</p>
-            <p>RPM: {segments[currentSegment]?.rpm || 'N/A'}</p>
-            <p>Time Left: {timeLeft}s</p>
-          </div>
-
-          {/* Next Segment Info */}
-          <div className="segment-info">
-            <h2>Next Segment</h2>
-            {currentSegment < segments.length - 1 ? (
-              <>
-                <p>Effort Level: {segments[currentSegment + 1]?.effort || 'N/A'}</p>
-                <p>RPM: {segments[currentSegment + 1]?.rpm || 'N/A'}</p>
-                <p>Duration: {segments[currentSegment + 1]?.duration || 'N/A'}s</p>
-              </>
-            ) : (
-              <p>No more segments</p>
-            )}
-          </div>
-
-          {/* Control Buttons */}
-          <div className="controls">
-            <button onClick={handleStart} disabled={isRunning}>Start</button>
-            <button onClick={handleStop} disabled={!isRunning}>Stop</button>
-          </div>
-        </div>
-        {/* Display Expected Power for Each User */}
-        <ExpectedPower users={users} currentSegment={segments[currentSegment]} />
-      </div>
-
-      {/* Timeline with segments */}
-      <div className="effort-level-bar-wrapper">
-        <EffortLevelBar segments={segments} currentSegment={currentSegment} />
-      </div>
+    <div className="app">
+      {!isConfigured ? (
+        <IntroPage onStart={handleStart} />
+      ) : (
+        <SpinningSession training={training} users={users} />
+      )}
     </div>
   );
 };
 
-export default SpinningSession;
+export default App;
