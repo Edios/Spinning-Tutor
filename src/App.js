@@ -1,7 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import EffortLevelBar from './EffortLevelBar';
 import './App.css';
+
 const SpinningSession = () => {
+  // Hardcoded FTP values for multiple users
+  const users = [
+    { name: 'Alice', ftp: 250 },
+    { name: 'Bob', ftp: 220 },
+    { name: 'Charlie', ftp: 280 }
+  ];
+
   const segments = [
       { effort: 1, rpm: 80, duration: 10 },
       { effort: 3, rpm: 70, duration: 15 },
@@ -13,6 +21,29 @@ const SpinningSession = () => {
   const [currentSegment, setCurrentSegment] = useState(0);
   const [timeLeft, setTimeLeft] = useState(segments[0].duration); // Set initial time to first segment's duration
   const [isRunning, setIsRunning] = useState(false); // Session running state
+
+  // Helper function to calculate FTP percentage and expected power
+  const calculateExpectedPower = (ftp, effort) => {
+    let ftpPercentage;
+    if (effort <= 2) {
+      ftpPercentage = 0.55; // Active Recovery
+    } else if (effort === 3) {
+      ftpPercentage = 0.55 + (0.75 - 0.55); // Endurance
+    } else if (effort === 5) {
+      ftpPercentage = 0.76 + (0.87 - 0.76); // Tempo
+    } else if (effort === 7) {
+      ftpPercentage = 0.88 + (0.94 - 0.88); // Sweet Spot
+    } else if (effort === 8) {
+      ftpPercentage = 0.95 + (1.05 - 0.95); // Threshold
+    } else if (effort === 9) {
+      ftpPercentage = 1.06 + (1.2 - 1.06); // VO2 Max
+    } else {
+      ftpPercentage = 1.2; // Anaerobic Capacity
+    }
+
+    const expectedWatts = Math.round(ftpPercentage * ftp);
+    return { ftpPercentage: (ftpPercentage * 100).toFixed(1), expectedWatts };
+  };
 
   // Effect for countdown logic
   useEffect(() => {
@@ -39,7 +70,6 @@ const SpinningSession = () => {
     }
 
     return () => clearInterval(interval); // Cleanup interval on component unmount
-
   }, [isRunning, timeLeft, currentSegment]);
 
   const handleStart = () => {
@@ -54,7 +84,7 @@ const SpinningSession = () => {
   return (
     <div className="app-container">
       <div className="sidebar-container">
-        <div className='sidebar'>
+        <div className="sidebar">
           {/* Current Segment Info */}
           <div className="segment-info">
             <h2>Current Segment</h2>
@@ -83,7 +113,26 @@ const SpinningSession = () => {
             <button onClick={handleStop} disabled={!isRunning}>Stop</button>
           </div>
         </div>
+        {/* Display Expected Power for Each User */}
+        <div className="expected-power">
+          <h2>Expected Power for Each User</h2>
+          <div className="user-power-container">
+            {users.map((user, index) => {
+              const { ftpPercentage, expectedWatts } = calculateExpectedPower(user.ftp, segments[currentSegment].effort);
+              return (
+                <div key={index} className="user-power">
+                  <h3>{user.name}:</h3>
+                  <p className="value">{expectedWatts}</p>
+                  <p className="label">Watts</p>
+                  <p className="value">{ftpPercentage}%</p>
+                  <p className="label">FTP</p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
       </div>
+
       {/* Timeline with segments */}
       <div className="effort-level-bar-wrapper">
         <EffortLevelBar segments={segments} currentSegment={currentSegment} />
