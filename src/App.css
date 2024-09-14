@@ -56,3 +56,16 @@ body, html {
   flex-direction: column;
   justify-content: space-between;
 }
+.home-button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+.home-button:hover {
+  background-color: #0056b3;
+}

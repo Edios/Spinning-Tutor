@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import './IntroPage.css';
+import './IntroPage.css'; // Ensure this file contains the styling for this component
+
 const IntroPage = ({ onStart }) => {
   // Predefined training plans
   const trainingPlans = [
@@ -10,11 +11,12 @@ const IntroPage = ({ onStart }) => {
     'Test Training'
   ];
 
-  // State to manage selected training and users
+  // State to manage selected training, users, and autoplay
   const [selectedTraining, setSelectedTraining] = useState('');
   const [users, setUsers] = useState([]);
   const [userName, setUserName] = useState('');
   const [userFtp, setUserFtp] = useState('');
+  const [autoplay, setAutoplay] = useState(false);
 
   // Handle adding a new user
   const addUser = () => {
@@ -33,7 +35,7 @@ const IntroPage = ({ onStart }) => {
   // Handle form submission
   const handleStart = () => {
     if (selectedTraining && users.length > 0) {
-      onStart(selectedTraining, users); // Pass selected training and users to the parent component
+      onStart(selectedTraining, users, autoplay); // Pass autoplay setting to the parent component
     } else {
       alert('Please select a training plan and add at least one user.');
     }
@@ -83,6 +85,17 @@ const IntroPage = ({ onStart }) => {
             </li>
           ))}
         </ul>
+      </div>
+
+      <div className="autoplay-option">
+        <label>
+          <input
+            type="checkbox"
+            checked={autoplay}
+            onChange={() => setAutoplay(!autoplay)}
+          />
+          Autoplay (Start training automatically)
+        </label>
       </div>
 
       <button onClick={handleStart}>Start Training</button>

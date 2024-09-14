@@ -2,8 +2,19 @@ import React, { useState, useEffect } from 'react';
 import EffortLevelBar from './EffortLevelBar';
 import ExpectedPower from './ExpectedPower';
 import './App.css';
+/**
+ * A SpinningSession component that simulates a spinning workout session with multiple segments.
+ * It displays the current and next segment information, and allows the user to start and stop the session.
+ * It also renders an effort level bar and expected power for each user.
+ *
+ * @param {Object} props - component properties
+ * @param {string} props.training - the type of training (e.g. 'HIIT Training', 'Low Cadence')
+ * @param {Array} props.users - an array of user objects
+ * @param {boolean} props.autoplay - whether to start the session automatically
+ * @return {JSX.Element} the SpinningSession component
+ */
 
-const SpinningSession = ({ training, users }) => {
+const SpinningSession = ({ training, users, autoplay}) => {
   // Define segment data for different training plans
   const trainingPlans = {
     'HIIT Training': [
@@ -11,6 +22,22 @@ const SpinningSession = ({ training, users }) => {
       { effort: 5, rpm: 70, duration: 15 },
       { effort: 7, rpm: 40, duration: 20 },
       { effort: 10, rpm: 100, duration: 25 },
+      { effort: 1, rpm: 80, duration: 10 },
+      { effort: 5, rpm: 70, duration: 15 },
+      { effort: 7, rpm: 40, duration: 20 },
+      { effort: 10, rpm: 100, duration: 25 },
+      { effort: 1, rpm: 80, duration: 10 },
+      { effort: 5, rpm: 70, duration: 15 },
+      { effort: 7, rpm: 40, duration: 20 },
+      { effort: 10, rpm: 100, duration: 25 },
+      { effort: 1, rpm: 80, duration: 10 },
+      { effort: 5, rpm: 70, duration: 15 },
+      { effort: 7, rpm: 40, duration: 20 },
+      { effort: 10, rpm: 100, duration: 25 },
+      { effort: 1, rpm: 80, duration: 10 },
+      { effort: 5, rpm: 70, duration: 15 },
+      { effort: 7, rpm: 40, duration: 20 },
+      { effort: 10, rpm: 100, duration: 25 }
     ],
     'Low Cadence': [
       { effort: 3, rpm: 60, duration: 15 },
@@ -54,6 +81,8 @@ const SpinningSession = ({ training, users }) => {
     return () => clearInterval(interval); // Cleanup interval on component unmount
   }, [isRunning, timeLeft, currentSegment, segments]);
 
+
+
   const handleStart = () => {
     setIsRunning(true);
     setTimeLeft(segments[currentSegment]?.duration || 0); // Set initial time left for the current segment
@@ -62,7 +91,12 @@ const SpinningSession = ({ training, users }) => {
   const handleStop = () => {
     setIsRunning(false);
   };
-
+  
+  useEffect(() => {
+    if (autoplay){
+      handleStart();
+    }
+},[autoplay]);
   return (
     <div className="app-container">
       <div className="sidebar-container">
