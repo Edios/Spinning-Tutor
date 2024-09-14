@@ -115,7 +115,7 @@ const SpinningSession = () => {
         </div>
         {/* Display Expected Power for Each User */}
         <div className="expected-power">
-          <h2>Expected Power for Each User</h2>
+          <h2>Expected Power:</h2>
           <div className="user-power-container">
             {users.map((user, index) => {
               const { ftpPercentage, expectedWatts } = calculateExpectedPower(user.ftp, segments[currentSegment].effort);

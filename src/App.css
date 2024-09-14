@@ -60,44 +60,46 @@ body, html {
 .expected-power {
   display: flex;
   flex-direction: column;
-  align-items: center; /* Center content horizontally */
-  flex: 1; /* Fill remaining space */
+  align-items: center; /* Center the title horizontally */
+  flex: 1; /* Take up remaining space */
   padding: 20px;
+  overflow-y: auto; /* Add vertical scrolling */
 }
 
 .expected-power h2 {
   text-align: center;
   font-size: 28px;
-  margin-bottom: 20px; /* Keep space below the title */
+  margin-bottom: 20px; /* Space below the title */
 }
 
 .user-power-container {
   display: flex;
-  flex-direction: row;
-  justify-content: space-around; /* Distribute users horizontally */
-  width: 100%; /* Occupy full width of the container */
+  flex-wrap: wrap; /* Allow wrapping into multiple rows */
+  justify-content: space-around; /* Spread items evenly across the row */
+  width: 100%; /* Full width */
 }
 
 .user-power {
   display: flex;
-  flex-direction: column; /* Arrange user info in column */
+  flex-direction: column;
   align-items: center;
   background-color: #fff;
   padding: 20px;
-  margin: 10px; /* Space around each user-power block */
+  margin: 10px; /* Space between each block */
   border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  width: 30%; /* Let each user-power take up roughly a third of the row */
+  width: 30%; /* Each block will take up about 30% of the row width */
+  box-sizing: border-box; /* Ensure padding is included in width */
 }
 
 .user-power h3 {
   font-size: 22px;
-  margin-bottom: 10px; /* Space between name and value */
+  margin-bottom: 10px; /* Space between name and values */
 }
 
 .user-power p {
   font-size: 22px;
-  margin: 5px 0; /* Space between values */
+  margin: 5px 0; /* Space between watts and FTP percentage */
 }
 
 .user-power .value {
