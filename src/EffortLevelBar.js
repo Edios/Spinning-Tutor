@@ -1,5 +1,5 @@
 import React from 'react';
-import './EffortLevelBar.css'; // Import the CSS file
+import './EffortLevelBar.css';
 
 // Function to determine color based on effort level
 const getColorForEffort = (effort) => {
