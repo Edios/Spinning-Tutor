@@ -2,15 +2,13 @@ import React, { useState } from 'react';
 import './IntroPage.css';
 
 const IntroPage = ({ onStart }) => {
-  // Predefined training plans
-  const trainingPlans = [
+const trainingPlans = [
     'HIIT Training',
     'Low Cadence',
     'Fat Burner',
     'Take it Easy',
     'Test Training'
-  ];
-
+    ];
   const [selectedTraining, setSelectedTraining] = useState('');
   const [users, setUsers] = useState([]);
   const [userName, setUserName] = useState('');
@@ -31,9 +29,9 @@ const IntroPage = ({ onStart }) => {
 
   const handleStart = () => {
     if (selectedTraining && users.length > 0) {
-        console.log(onStart)
       if (typeof onStart === 'function') {
-        onStart(selectedTraining, users, autoplay); // Call onStart with the current settings
+        console.log('Calling onStart with:', selectedTraining, users, autoplay);
+        onStart(selectedTraining, users, autoplay);
       } else {
         console.error('onStart is not a function');
       }
@@ -52,7 +50,7 @@ const IntroPage = ({ onStart }) => {
           value={selectedTraining}
           onChange={(e) => setSelectedTraining(e.target.value)}
         >
-          <option value="">-- Choose a Training --</option>
+        <option value="">-- Choose a Training --</option>
           {trainingPlans.map((plan, index) => (
             <option key={index} value={plan}>
               {plan}
@@ -64,19 +62,19 @@ const IntroPage = ({ onStart }) => {
       <div className="user-management">
         <h2>Manage Users</h2>
         <div className="user-input">
-          <input
-            type="text"
-            placeholder="Name"
-            value={userName}
-            onChange={(e) => setUserName(e.target.value)}
-          />
-          <input
-            type="number"
-            placeholder="FTP"
-            value={userFtp}
-            onChange={(e) => setUserFtp(e.target.value)}
-          />
-          <button onClick={addUser}>Add User</button>
+            <input
+                type="text"
+                placeholder="Name"
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
+                />
+                <input
+                type="number"
+                placeholder="FTP"
+                value={userFtp}
+                onChange={(e) => setUserFtp(e.target.value)}
+            />
+            <button onClick={addUser}>Add User</button>
         </div>
         <ul className="user-list">
           {users.map((user, index) => (
@@ -90,11 +88,7 @@ const IntroPage = ({ onStart }) => {
 
       <div className="autoplay-option">
         <label>
-          <input
-            type="checkbox"
-            checked={autoplay}
-            onChange={() => setAutoplay(!autoplay)}
-          />
+          <input type="checkbox" checked={autoplay} onChange={() => setAutoplay(!autoplay)} />
           Autoplay (Start training automatically)
         </label>
       </div>

@@ -94,7 +94,8 @@ const SpinningSession = ({ training, users, autoplay}) => {
   
   useEffect(() => {
     if (autoplay){
-      handleStart();
+        console.log('Autoplay is enabled. Starting the session automatically.');
+        handleStart();
     }
 },[autoplay]);
   return (
