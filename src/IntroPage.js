@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './IntroPage.css'; // Ensure this file contains the styling for this component
+import './IntroPage.css';
 
 const IntroPage = ({ onStart }) => {
   // Predefined training plans
@@ -11,14 +11,12 @@ const IntroPage = ({ onStart }) => {
     'Test Training'
   ];
 
-  // State to manage selected training, users, and autoplay
   const [selectedTraining, setSelectedTraining] = useState('');
   const [users, setUsers] = useState([]);
   const [userName, setUserName] = useState('');
   const [userFtp, setUserFtp] = useState('');
   const [autoplay, setAutoplay] = useState(false);
 
-  // Handle adding a new user
   const addUser = () => {
     if (userName && userFtp) {
       setUsers([...users, { name: userName, ftp: parseInt(userFtp) }]);
@@ -27,15 +25,18 @@ const IntroPage = ({ onStart }) => {
     }
   };
 
-  // Handle removing a user
   const removeUser = (index) => {
     setUsers(users.filter((_, i) => i !== index));
   };
 
-  // Handle form submission
   const handleStart = () => {
     if (selectedTraining && users.length > 0) {
-      onStart(selectedTraining, users, autoplay); // Pass autoplay setting to the parent component
+        console.log(onStart)
+      if (typeof onStart === 'function') {
+        onStart(selectedTraining, users, autoplay); // Call onStart with the current settings
+      } else {
+        console.error('onStart is not a function');
+      }
     } else {
       alert('Please select a training plan and add at least one user.');
     }

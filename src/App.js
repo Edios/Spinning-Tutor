@@ -2,12 +2,11 @@ import React, { useState } from 'react';
 import SpinningSession from './SpinningSession';
 import IntroPage from './IntroPage';
 import './App.css';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes, useNavigate, Navigate } from 'react-router-dom';
 
 const App = () => {
   const navigate = useNavigate();
 
-  const [isConfigured, setIsConfigured] = useState(false);
   const [training, setTraining] = useState('');
   const [users, setUsers] = useState([]);
   const [autoplay, setAutoplay] = useState(false);
@@ -16,7 +15,6 @@ const App = () => {
     setTraining(selectedTraining);
     setUsers(usersList);
     setAutoplay(autoplaySetting);
-    setIsConfigured(true);
     navigate('/app');
   };
 
@@ -42,10 +40,14 @@ const App = () => {
           }
         />
 
-        {/* Redirect to /intro by default */}
-        <Route path="*" element={<IntroPage onStart={handleStart} />} />
+        {/* Redirect to /intro by default when accessing the root path */}
+        <Route path="/" element={<Navigate to="/intro" />} />
+        
+        {/* Fallback for any unknown route */}
+        <Route path="*" element={<Navigate to="/intro" />} />
       </Routes>
     </div>
   );
 };
+
 export default App;

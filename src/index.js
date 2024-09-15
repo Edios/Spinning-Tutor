@@ -1,14 +1,18 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client'; // Use react-dom/client
-import './index.css';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import App from './App';
-import { BrowserRouter } from 'react-router-dom';
+import IntroPage from './IntroPage'; 
 
-const rootElement = document.getElementById('root');
-const root = ReactDOM.createRoot(rootElement); // Create root for concurrent mode
+const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>
+  <React.StrictMode>
+    <Router>
+      <Routes>
+        <Route path="/intro" element={<IntroPage />} />
+        <Route path="/app/*" element={<App />} />
+      </Routes>
+    </Router>
+  </React.StrictMode>
 );
