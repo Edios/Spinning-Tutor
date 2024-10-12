@@ -98,44 +98,32 @@ const SpinningSession = ({ training, users, autoplay}) => {
         handleStart();
     }
 },[autoplay]);
-  return (
-    <div className="app-container">
-      <div className="sidebar-container">
-        <div className="sidebar">
-          {/* Current Segment Info */}
-          <div className="segment-info">
-            <h2>Current Segment</h2>
-            <p>Effort Level: {segments[currentSegment]?.effort || 'N/A'}</p>
-            <p>RPM: {segments[currentSegment]?.rpm || 'N/A'}</p>
-            <p>Time Left: {timeLeft}s</p>
-          </div>
 
-          {/* Next Segment Info */}
-          <div className="segment-info">
-            <h2>Next Segment</h2>
-            {currentSegment < segments.length - 1 ? (
-              <>
-                <p>Effort Level: {segments[currentSegment + 1]?.effort || 'N/A'}</p>
-                <p>RPM: {segments[currentSegment + 1]?.rpm || 'N/A'}</p>
-                <p>Duration: {segments[currentSegment + 1]?.duration || 'N/A'}s</p>
-              </>
-            ) : (
-              <p>No more segments</p>
-            )}
-          </div>
-
-          {/* Control Buttons */}
-          <div className="controls">
-            <button onClick={handleStart} disabled={isRunning}>Start</button>
-            <button onClick={handleStop} disabled={!isRunning}>Stop</button>
-          </div>
-        </div>
-        {/* Display Expected Power for Each User */}
+return (
+    <div className="app">
+      <div className="sidebar">
         <ExpectedPower users={users} currentSegment={segments[currentSegment]} />
       </div>
 
-      {/* Timeline with segments */}
-      <div className="effort-level-bar-wrapper">
+      <div className="main-container">
+      <div className="segment-info">
+  <div className="segment-circle time">
+    <p>{timeLeft}s</p>
+  </div>
+  <div className="segment-circle effort">
+    <p>{segments[currentSegment].effort}</p>
+    <p>Effort</p>
+  </div>
+  <div className="segment-circle rpm">
+    <p>{segments[currentSegment].rpm}</p>
+    <p>RPM</p>
+  </div>
+</div>
+
+
+
+
+        <div className="hr-line"></div>
         <EffortLevelBar segments={segments} currentSegment={currentSegment} />
       </div>
     </div>
