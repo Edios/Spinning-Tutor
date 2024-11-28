@@ -1,5 +1,4 @@
 import React from 'react';
-import './ExpectedPower.css';
 
 const ExpectedPower = ({ users, currentSegment }) => {
   const calculateExpectedPower = (ftp, effort) => {
@@ -25,13 +24,17 @@ const ExpectedPower = ({ users, currentSegment }) => {
   };
 
   return (
-    <div className="expected-power">
+    <div className="flex flex-col gap-4">
+      <h2 className="text-2xl font-bold text-gray-800 mb-4 border-b pb-2">Expected Power</h2>
       {users.map((user, index) => {
         const { expectedWatts } = calculateExpectedPower(user.ftp, currentSegment?.effort || 1);
         return (
-          <div key={index} className="user-power-row">
-            <span className="user-name">{user.name}</span>
-            <span className="user-watts">{expectedWatts} W</span>
+          <div
+            key={index}
+            className="flex justify-between items-center border-b last:border-b-0 pb-2 text-gray-700"
+          >
+            <span className="text-lg font-semibold">{user.name}</span>
+            <span className="text-lg font-bold text-right text-blue-600">{expectedWatts} W</span>
           </div>
         );
       })}

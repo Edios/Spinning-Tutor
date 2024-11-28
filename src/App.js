@@ -36,9 +36,6 @@ const App = () => {
           path="/app"
           element={
             <div>
-              <button className="home-button" onClick={() => navigate('/intro')}>
-                Home
-              </button>
               <SpinningSession training={training} users={users} autoplay={autoplay} />
             </div>
           }
