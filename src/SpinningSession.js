@@ -105,27 +105,27 @@ return (
         <ExpectedPower users={users} currentSegment={segments[currentSegment]} />
       </div>
 
-      <div className="main-container">
-      <div className="segment-info">
-  <div className="segment-circle time">
-    <p>{timeLeft}s</p>
-  </div>
-  <div className="segment-circle effort">
-    <p>{segments[currentSegment].effort}</p>
-    <p>Effort</p>
-  </div>
-  <div className="segment-circle rpm">
-    <p>{segments[currentSegment].rpm}</p>
-    <p>RPM</p>
-  </div>
-</div>
-
-
-
-
+        <div className="main-container">
+          <div className="segment-info">
+            
+            <div className="segment-circle time">
+              <p>{timeLeft}s</p>
+            </div>
+            
+            <div className="segment-circle effort">
+              <p>{segments[currentSegment].effort}</p>
+              <p>Effort</p>
+            </div>
+            
+            <div className="segment-circle rpm">
+              <p>{segments[currentSegment].rpm}</p>
+              <p>RPM</p>
+            </div>
+          </div>
+        
         <div className="hr-line"></div>
-        <EffortLevelBar segments={segments} currentSegment={currentSegment} />
-      </div>
+          <EffortLevelBar segments={segments} currentSegment={currentSegment} />
+        </div>
     </div>
   );
 };

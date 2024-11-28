@@ -11,12 +11,16 @@ const App = () => {
   const [users, setUsers] = useState([]);
   const [autoplay, setAutoplay] = useState(false);
 
-  const handleStart = (selectedTraining, usersList, autoplaySetting) => {
+  const handleStart = React.useCallback((selectedTraining, usersList, autoplaySetting) => {
     setTraining(selectedTraining);
     setUsers(usersList);
     setAutoplay(autoplaySetting);
     navigate('/app');
-  };
+  }, [navigate]);
+
+  React.useEffect(() => {
+    console.log('handleStart updated');
+  }, [handleStart]);
 
   return (
     <div className="app">
